@@ -8,7 +8,7 @@ Build the java project using [maven](https://maven.apache.org/).
 
 `` mvn clean package ``
 # Build
-`` docker build . -t api-diff ``
+`` docker build . -t apidiff ``
 
 # Run
 `` docker run -p 8080:8080 apidiff ``
