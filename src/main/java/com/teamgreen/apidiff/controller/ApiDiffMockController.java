@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @NoArgsConstructor
 public class ApiDiffMockController {
 
-    private static final String OPENAPI_DOC1 = System.getProperty("user.dir")+"\\yamls\\issue-256_1.json";
-    private static final String OPENAPI_DOC2 = System.getProperty("user.dir")+"\\yamls\\issue-256_2.json";
+    private static final String OPENAPI_DOC1 = System.getProperty("user.dir")+"\\yamls\\composed_schema_1.yaml";
+    private static final String OPENAPI_DOC2 = System.getProperty("user.dir")+"\\yamls\\composed_schema_2.yaml";
 
     @GetMapping("/console")
     public String mockGetDiffWithConsoleOutput(){

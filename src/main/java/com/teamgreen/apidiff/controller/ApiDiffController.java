@@ -1,6 +1,7 @@
 package com.teamgreen.apidiff.controller;
 
 
+import com.teamgreen.apidiff.model.ApiDiff;
 import com.teamgreen.apidiff.service.ApiDiffService;
 import com.teamgreen.apidiff.model.ApiSpecPair;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,7 @@ public class ApiDiffController {
     }
 
     @GetMapping("/relevantChanges")
-    public String getPotentiallyPrivacyRelatedChanges(@RequestBody ApiSpecPair apiSpecPair){
+    public ApiDiff getPotentiallyPrivacyRelatedChanges(@RequestBody ApiSpecPair apiSpecPair){
         return apiDiffService.getPotentiallyPrivacyRelatedChanges(apiSpecPair);
     }
 

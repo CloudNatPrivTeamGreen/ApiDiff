@@ -7,21 +7,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApiDiffAnalyzerService {
 
-    public ApiDiff analyze(ChangedOpenApi completeDiff){
-        if(!isGeneralDifferenceGiven(completeDiff)){
+    public ApiDiff getRelevantDiffs(ChangedOpenApi completeDiff){
+        if(completeDiff.isUnchanged()){
             return ApiDiff.builder()
-                    .generalDifference(false)
-                    .privacyRelevantDifferences(false)
+                    .generalDifferenceGiven(false)
                     .build();
         }
 
         return ApiDiff.builder()
-                .generalDifference(true)
+                .generalDifferenceGiven(true)
+                .newEndpoints(completeDiff.getNewEndpoints())
+                .missingEndpoints(completeDiff.getMissingEndpoints())
+                .changedOperations(completeDiff.getChangedOperations())
+                .changedSchemas(completeDiff.getChangedSchemas())
                 .build();
     }
-
-    private boolean isGeneralDifferenceGiven(ChangedOpenApi completeDiff){
-        return completeDiff.isDifferent();
-    }
-
 }

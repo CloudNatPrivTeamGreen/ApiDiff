@@ -26,9 +26,10 @@ public class ApiDiffService {
     }
 
 
-    public String getPotentiallyPrivacyRelatedChanges(ApiSpecPair apiSpecPair) {
+    public ApiDiff getPotentiallyPrivacyRelatedChanges(ApiSpecPair apiSpecPair) {
         ChangedOpenApi completeDiff = OpenApiCompare.fromContents(apiSpecPair.getOldApiSpec().toString(), apiSpecPair.getNewApiSpec().toString());
-        ApiDiff analyzedDiff = apiDiffAnalyzerService.analyze(completeDiff);
-        return apiDiffResponseService.getResponseForPrivacyRelatedChanges(analyzedDiff);
+        ApiDiff relevantDiffs = apiDiffAnalyzerService.getRelevantDiffs(completeDiff);
+//        return apiDiffResponseService.getResponseForPrivacyRelatedChanges(relevantDiffs);
+        return relevantDiffs;
     }
 }
