@@ -9,6 +9,7 @@ import org.openapitools.openapidiff.core.output.JsonRender;
 import org.openapitools.openapidiff.core.output.MarkdownRender;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,18 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 @NoArgsConstructor
 public class ApiDiffMockController {
 
-    private static final String OPENAPI_DOC1 = System.getProperty("user.dir")+"\\yamls\\composed_schema_1.yaml";
-    private static final String OPENAPI_DOC2 = System.getProperty("user.dir")+"\\yamls\\composed_schema_2.yaml";
-
     @GetMapping("/console")
-    public String mockGetDiffWithConsoleOutput(){
+    public String mockGetDiffWithConsoleOutput(@RequestParam String oldApi, @RequestParam String newApi){
+        String OPENAPI_DOC1 = System.getProperty("user.dir")+"\\yamls\\"+oldApi;
+        String OPENAPI_DOC2 = System.getProperty("user.dir")+"\\yamls\\"+newApi;
         ChangedOpenApi diff = OpenApiCompare.fromLocations(OPENAPI_DOC1, OPENAPI_DOC2);
 
         return new ConsoleRender().render(diff);
     }
 
     @GetMapping("/html")
-    public String mockGetDiffWithHtmlOutput(){
+    public String mockGetDiffWithHtmlOutput(@RequestParam String oldApi, @RequestParam String newApi){
+        String OPENAPI_DOC1 = System.getProperty("user.dir")+"\\yamls\\"+oldApi;
+        String OPENAPI_DOC2 = System.getProperty("user.dir")+"\\yamls\\"+newApi;
         ChangedOpenApi diff = OpenApiCompare.fromLocations(OPENAPI_DOC1, OPENAPI_DOC2);
 
         return new HtmlRender("Changelog",
@@ -36,14 +38,18 @@ public class ApiDiffMockController {
     }
 
     @GetMapping("/json")
-    public String mockGetDiffWithJsonOutput(){
+    public String mockGetDiffWithJsonOutput(@RequestParam String oldApi, @RequestParam String newApi){
+        String OPENAPI_DOC1 = System.getProperty("user.dir")+"\\yamls\\"+oldApi;
+        String OPENAPI_DOC2 = System.getProperty("user.dir")+"\\yamls\\"+newApi;
         ChangedOpenApi diff = OpenApiCompare.fromLocations(OPENAPI_DOC1, OPENAPI_DOC2);
 
         return new JsonRender().render(diff);
     }
 
     @GetMapping("/markdown")
-    public String mockGetDiffWithMarkdownOutput(){
+    public String mockGetDiffWithMarkdownOutput(@RequestParam String oldApi, @RequestParam String newApi){
+        String OPENAPI_DOC1 = System.getProperty("user.dir")+"\\yamls\\"+oldApi;
+        String OPENAPI_DOC2 = System.getProperty("user.dir")+"\\yamls\\"+newApi;
         ChangedOpenApi diff = OpenApiCompare.fromLocations(OPENAPI_DOC1, OPENAPI_DOC2);
 
         return new MarkdownRender().render(diff);
