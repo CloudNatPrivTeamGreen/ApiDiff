@@ -28,5 +28,34 @@ You can choose from the provided example API specification and compare them by c
 - ``/mock/json?oldApi=<oldApi.yaml>&newApi=<newApi.yaml>`` : Json representation of differences (Note: Json file is usually very big)
 - ``/mock/markdown?oldApi=<oldApi.yaml>&newApi=<newApi.yaml>`` :  Markdown representation of differences
 
-## Relevant Changes Endpoint
-This endpoint is exposing the functionality to compare to OpenAPI specifications, analyze and filter the differences and only return the differences which are potentially related to privacy. Moreover, the returned differences are represented in a compacter way to eliminate unnecessary large responses.
+## ApiDiff Endpoints
+
+### Render Endpoint
+This endpoint is similiar to the mock endpoint since it exposes the rendered basic comparison functionality of the openapi-diff library. However you can define the OpenApi specification which should be compared in the RequestBody of the request.
+
+- ``/render?type=<renderType>``
+  
+  ``type``: can be either html, json, markdown or console
+  
+  RequestBody: you can define the old and new Api Specification which should be compared here in this format:
+  
+  ```
+  {
+    "oldApiSpec": {...},
+    "newApiSpec": {...}
+  }
+  ```
+
+### Relevant Changes Endpoint (In Progress)
+This endpoint is exposing the functionality to compare to OpenAPI specifications, analyze and filter the differences and only return the differences which are potentially related to privacy. Moreover, the returned differences are represented in a compacter way to eliminate unnecessary large responses. You can define the OpenApi specification which should be compared in the RequestBody of the request.
+
+- ``/apidiff/relevantChanges``
+
+RequestBody: you can define the old and new Api Specification which should be compared here in this format:
+  
+  ```
+  {
+    "oldApiSpec": {...},
+    "newApiSpec": {...}
+  }
+  ```
