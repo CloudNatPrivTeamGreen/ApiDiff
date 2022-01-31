@@ -30,6 +30,12 @@ public class ApiDiffController {
         return apiDiffService.getPotentiallyPrivacyRelatedChanges(apiSpecPair);
     }
 
+    @GetMapping("/relevantChangesFromSamples")
+    public ApiDiff getPotentiallyPrivacyRelatedChangesFromSamples(@RequestParam String oldApi, @RequestParam String newApi){
+        return apiDiffService.getPotentiallyPrivacyRelatedChangesExample(oldApi, newApi);
+    }
+
+
 }
 
 
