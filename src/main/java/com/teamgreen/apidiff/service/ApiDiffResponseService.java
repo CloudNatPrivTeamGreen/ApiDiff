@@ -27,7 +27,4 @@ public class ApiDiffResponseService {
         return response;
     }
 
-    public String getResponseForPrivacyRelatedChanges(ApiDiff apiDiff){
-        return "";
-    }
 }

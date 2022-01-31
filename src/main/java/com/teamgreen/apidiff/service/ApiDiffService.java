@@ -28,8 +28,15 @@ public class ApiDiffService {
 
     public ApiDiff getPotentiallyPrivacyRelatedChanges(ApiSpecPair apiSpecPair) {
         ChangedOpenApi completeDiff = OpenApiCompare.fromContents(apiSpecPair.getOldApiSpec().toString(), apiSpecPair.getNewApiSpec().toString());
-        ApiDiff relevantDiffs = apiDiffAnalyzerService.getRelevantDiffs(completeDiff);
-//        return apiDiffResponseService.getResponseForPrivacyRelatedChanges(relevantDiffs);
-        return relevantDiffs;
+
+        return apiDiffAnalyzerService.getRelevantDiffs(completeDiff);
+    }
+
+    public ApiDiff getPotentiallyPrivacyRelatedChangesExample(String oldApi, String newApi) {
+        String OPENAPI_DOC1 = System.getProperty("user.dir")+"\\yamls\\"+oldApi;
+        String OPENAPI_DOC2 = System.getProperty("user.dir")+"\\yamls\\"+newApi;
+        ChangedOpenApi completeDiff = OpenApiCompare.fromLocations(OPENAPI_DOC1, OPENAPI_DOC2);
+
+        return apiDiffAnalyzerService.getRelevantDiffs(completeDiff);
     }
 }

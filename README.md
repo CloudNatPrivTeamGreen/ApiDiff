@@ -51,7 +51,7 @@ This endpoint is exposing the functionality to compare to OpenAPI specifications
 
 - ``/apidiff/relevantChanges``
 
-RequestBody: you can define the old and new Api Specification which should be compared here in this format:
+  RequestBody: you can define the old and new Api Specification which should be compared here in this format:
   
   ```
   {
@@ -59,3 +59,8 @@ RequestBody: you can define the old and new Api Specification which should be co
     "newApiSpec": {...}
   }
   ```
+
+- ``/apidiff/relevantChangesFromSamples?oldApi=<oldApi.yaml>&newApi=<newApi.yaml>``
+
+  Same functionality as ``/relevantChanges``, but you can specify the OpenApi specification which should be compared in the request parameters (see MockRenderEndpoints for details).
+  This endpoint serves only for easier and faster development.
