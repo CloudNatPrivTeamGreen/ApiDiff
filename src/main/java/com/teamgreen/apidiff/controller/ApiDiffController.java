@@ -2,6 +2,7 @@ package com.teamgreen.apidiff.controller;
 
 
 import com.teamgreen.apidiff.model.ApiDiff;
+import com.teamgreen.apidiff.model.ApiDiffTira;
 import com.teamgreen.apidiff.service.ApiDiffService;
 import com.teamgreen.apidiff.model.ApiSpecPair;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,16 @@ public class ApiDiffController {
     @GetMapping("/relevantChangesFromSamples")
     public ApiDiff getPotentiallyPrivacyRelatedChangesFromSamples(@RequestParam String oldApi, @RequestParam String newApi){
         return apiDiffService.getPotentiallyPrivacyRelatedChangesExample(oldApi, newApi);
+    }
+
+    @GetMapping("/tira")
+    public ApiDiffTira getTiraChanges(@RequestBody ApiSpecPair apiSpecPair){
+        return apiDiffService.getTiraChanges(apiSpecPair);
+    }
+
+    @GetMapping("/tiraFromSamples")
+    public ApiDiffTira getTiraChangesFromSamples(@RequestParam String oldApi, @RequestParam String newApi){
+        return apiDiffService.getTiraChangesFromSamples(oldApi, newApi);
     }
 
 

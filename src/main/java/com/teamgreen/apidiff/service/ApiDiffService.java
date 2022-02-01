@@ -2,6 +2,7 @@ package com.teamgreen.apidiff.service;
 
 import com.teamgreen.apidiff.model.ApiDiff;
 import com.teamgreen.apidiff.model.ApiSpecPair;
+import com.teamgreen.apidiff.model.ApiDiffTira;
 import org.openapitools.openapidiff.core.OpenApiCompare;
 import org.openapitools.openapidiff.core.model.ChangedOpenApi;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,19 @@ public class ApiDiffService {
         ChangedOpenApi completeDiff = OpenApiCompare.fromLocations(OPENAPI_DOC1, OPENAPI_DOC2);
 
         return apiDiffAnalyzerService.getRelevantDiffs(completeDiff);
+    }
+
+    public ApiDiffTira getTiraChanges(ApiSpecPair apiSpecPair) {
+        ChangedOpenApi completeDiff = OpenApiCompare.fromContents(apiSpecPair.getOldApiSpec().toString(), apiSpecPair.getNewApiSpec().toString());
+
+        return apiDiffAnalyzerService.getTiraDiffs(completeDiff);
+    }
+
+    public ApiDiffTira getTiraChangesFromSamples(String oldApi, String newApi) {
+        String OPENAPI_DOC1 = System.getProperty("user.dir")+"\\yamls\\"+oldApi;
+        String OPENAPI_DOC2 = System.getProperty("user.dir")+"\\yamls\\"+newApi;
+        ChangedOpenApi completeDiff = OpenApiCompare.fromLocations(OPENAPI_DOC1, OPENAPI_DOC2);
+
+        return apiDiffAnalyzerService.getTiraDiffs(completeDiff);
     }
 }
