@@ -10,7 +10,7 @@ public class ApiDiffTira {
     private Object missingGlobalTiraAnnotation;
     private Object changedGlobalTiraAnnotation;
 
-    private List<ApiTiraAnnotations.SchemaTiraAnnotation> newComponentTiraAnnotations;
-    private List<ApiTiraAnnotations.SchemaTiraAnnotation> missingComponentTiraAnnotations;
-    private List<ApiTiraAnnotations.SchemaTiraAnnotation> changedComponentTiraAnnotations;
+    private List<ApiTiraAnnotations.SchemaTiraAnnotation> newSchemaTiraAnnotations;
+    private List<ApiTiraAnnotations.SchemaTiraAnnotation> missingSchemaTiraAnnotations;
+    private List<ApiTiraAnnotations.SchemaTiraAnnotation> changedSchemaTiraAnnotations;
 }
