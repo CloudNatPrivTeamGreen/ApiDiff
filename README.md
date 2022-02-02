@@ -24,13 +24,20 @@ This endpoint is exposing the functionality to compare to OpenAPI specifications
 
 - ``/apidiff/relevantChanges``
 
-  *RequestBody*: you can define the old and new Api Specification which should be compared here in this format:
+  *RequestBody*: you can define the old and new Api Specification which should be compared here in this format with JSON:
   
   ```
   {
     "oldApiSpec": {...},
     "newApiSpec": {...}
   }
+  ```
+  Note: You also can define the specifications in the RequestBody with yaml. For this the HTTP request header `Content-Type` must be set to `application/x-yaml` 
+  ```
+  oldApiSpec:
+    ...
+  newApiSpec:
+    ...
   ```
 
 - ``/apidiff/relevantChangesFromSamples?oldApi=<oldApi.yaml>&newApi=<newApi.yaml>``
@@ -43,13 +50,21 @@ This endpoint will analyze the supplied OpenAPI specifications for TIRA annotati
 
 - `` /apidiff/tira ``
 
-  *RequestBody*: you can define the old and new Api Specification which should be compared here in this format:
+  *RequestBody*: you can define the old and new Api Specification which should be compared here in this format with JSON:
 
   ```
   {
     "oldApiSpec": {...},
     "newApiSpec": {...}
   }
+  ```
+
+  Note: You also can define the specifications in the RequestBody with yaml. For this the HTTP request header `Content-Type` must be set to `application/x-yaml`
+    ```
+    oldApiSpec:
+      ...
+    newApiSpec:
+      ...
   ```
 
 - `` /apidiff/tiraFromSamples?oldApi=<oldApi.yaml>&newApi=<newApi.yaml>``
@@ -71,11 +86,19 @@ To choose the render type you have to set the `type` request parameter to your d
 - `/render/fromRequestBody?type=<type>`:
   This endpoint has the same functionality as `/render/fromSamples`. However you can define the OpenApi specification which should be compared in the RequestBody of the request.
 
-  *RequestBody*: you can define the old and new Api Specification which should be compared here in this format:
+  *RequestBody*: you can define the old and new Api Specification which should be compared here in this format with JSON:
 
   ```
   {
     "oldApiSpec": {...},
     "newApiSpec": {...}
   }
+  ```
+
+  Note: You also can define the specifications in the RequestBody with yaml. For this the HTTP request header `Content-Type` must be set to `application/x-yaml`
+  ```
+  oldApiSpec:
+    ...
+  newApiSpec:
+    ...
   ```

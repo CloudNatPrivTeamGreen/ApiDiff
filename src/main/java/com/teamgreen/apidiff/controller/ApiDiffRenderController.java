@@ -1,5 +1,8 @@
 package com.teamgreen.apidiff.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.teamgreen.apidiff.model.ApiSpecPair;
 import lombok.NoArgsConstructor;
 import org.openapitools.openapidiff.core.OpenApiCompare;
@@ -27,11 +30,23 @@ public class ApiDiffRenderController {
 
 
     @GetMapping("/fromRequestBody")
-    public String getAllApiChangesWithBasicRender(@RequestParam String type, @RequestBody ApiSpecPair apiSpecPair){
+    public String getAllApiChangesWithBasicRenderJson(@RequestParam String type, @RequestBody ApiSpecPair apiSpecPair){
         ChangedOpenApi diff = OpenApiCompare.fromContents(apiSpecPair.getOldApiSpec().toString(), apiSpecPair.getNewApiSpec().toString());
 
         return getRenderedApiDiffResponse(diff,type);
     }
+
+    @GetMapping(value= "/fromRequestBody", consumes = "application/x-yaml")
+    public String getAllApiChangesWithBasicRenderYaml(@RequestParam String type, @RequestBody String apiSpecPair1) throws JsonProcessingException {
+        ObjectMapper yamlReader = new ObjectMapper(new YAMLFactory());
+        ApiSpecPair apiSpecPair = yamlReader.readValue(apiSpecPair1, ApiSpecPair.class);
+
+        ChangedOpenApi diff = OpenApiCompare.fromContents(apiSpecPair.getOldApiSpec().toString(), apiSpecPair.getNewApiSpec().toString());
+
+        return getRenderedApiDiffResponse(diff,type);
+    }
+
+
 
     private String getRenderedApiDiffResponse(ChangedOpenApi diff, String renderType){
         String response;
