@@ -1,14 +1,15 @@
 package com.teamgreen.apidiff.model;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
 public class ApiDiffTira {
-    private Object newGlobalTiraAnnotation;
-    private Object missingGlobalTiraAnnotation;
-    private Object changedGlobalTiraAnnotation;
+    private JsonNode newGlobalTiraAnnotation;
+    private JsonNode missingGlobalTiraAnnotation;
+    private JsonNode changedGlobalTiraAnnotation;
 
     private List<ApiTiraAnnotations.SchemaTiraAnnotation> newSchemaTiraAnnotations;
     private List<ApiTiraAnnotations.SchemaTiraAnnotation> missingSchemaTiraAnnotations;
