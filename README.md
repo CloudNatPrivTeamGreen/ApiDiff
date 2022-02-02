@@ -45,6 +45,19 @@ This endpoint is exposing the functionality to compare to OpenAPI specifications
   Same functionality as ``/relevantChanges``, but you can specify the OpenApi specification which should be compared in the request parameters (see Render Endpoints below for details).
   This endpoint serves only for easier and faster development.
 
+A response will have this format:
+
+```
+{
+    "generalDifferenceGiven": false,
+    "potentiallyPrivacyRelatedDifferencesGiven": false,
+    "newEndpoints": [ ... ],
+    "missingEndpoints": [ ... ],
+    "changedOperations": [ ... ],
+    "changedSchemas": [ ... ]
+}
+```
+
 ### Tira Endpoints
 This endpoint will analyze the supplied OpenAPI specifications for TIRA annotations and analyze the difference.
 
@@ -71,6 +84,19 @@ This endpoint will analyze the supplied OpenAPI specifications for TIRA annotati
   
   Same functionality as ``/tira``, but you can specify the OpenApi specification which should be compared in the request parameters (see Render Endpoints below for details).
   This endpoint serves only for easier and faster development. 
+
+A response will have this format:
+
+```
+{
+    "newGlobalTiraAnnotation": [ ... ],
+    "missingGlobalTiraAnnotation": [ ... ],
+    "changedGlobalTiraAnnotation": [ ... ],
+    "newSchemaTiraAnnotations": [ ... ],
+    "missingSchemaTiraAnnotations": [ ... ],
+    "changedSchemaTiraAnnotations": [ ... ]
+}
+```
 
 ## Render Endpoints
 The render endpoints are only exposing the basic comparison functionality of the openapi-diff library. It renders the compared APIs using the Render classes of openapi-diff.
