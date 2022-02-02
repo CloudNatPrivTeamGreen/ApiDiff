@@ -46,7 +46,7 @@ This endpoint is similiar to the mock endpoint since it exposes the rendered bas
   }
   ```
 
-### Relevant Changes Endpoint (In Progress)
+### Relevant Changes Endpoint
 This endpoint is exposing the functionality to compare to OpenAPI specifications, analyze and filter the differences and only return the differences which are potentially related to privacy. Moreover, the returned differences are represented in a compacter way to eliminate unnecessary large responses. You can define the OpenApi specification which should be compared in the RequestBody of the request.
 
 - ``/apidiff/relevantChanges``
@@ -63,4 +63,23 @@ This endpoint is exposing the functionality to compare to OpenAPI specifications
 - ``/apidiff/relevantChangesFromSamples?oldApi=<oldApi.yaml>&newApi=<newApi.yaml>``
 
   Same functionality as ``/relevantChanges``, but you can specify the OpenApi specification which should be compared in the request parameters (see MockRenderEndpoints for details).
+  This endpoint serves only for easier and faster development.
+
+### Tira Endpoints
+This endpoint will analyze the supplied OpenAPI specifications for TIRA annotations and analyze the difference.
+
+- `` /apidiff/tira ``
+
+  RequestBody: you can define the old and new Api Specification which should be compared here in this format:
+
+  ```
+  {
+    "oldApiSpec": {...},
+    "newApiSpec": {...}
+  }
+  ```
+
+- `` /apidiff/tiraFromSamples?oldApi=<oldApi.yaml>&newApi=<newApi.yaml>``
+  
+  Same functionality as ``/tira``, but you can specify the OpenApi specification which should be compared in the request parameters (see MockRenderEndpoints for details).
   This endpoint serves only for easier and faster development.
