@@ -7,17 +7,6 @@ import java.util.List;
 @Data
 public class ApiTiraAnnotations {
 
-    @Data
-    public static class SchemaTiraAnnotation {
-        private String schemaName;
-        private JsonNode schemaTiraAnnotation;
-
-        public SchemaTiraAnnotation(String schemaName, JsonNode schemaTiraAnnotation) {
-            this.schemaName = schemaName;
-            this.schemaTiraAnnotation = schemaTiraAnnotation;
-        }
-    }
-
     private JsonNode globalTiraAnnotations;
     private List<SchemaTiraAnnotation> schemaTiraAnnotations;
 

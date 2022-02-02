@@ -11,7 +11,7 @@ public class ApiDiffTira {
     private JsonNode missingGlobalTiraAnnotation;
     private JsonNode changedGlobalTiraAnnotation;
 
-    private List<ApiTiraAnnotations.SchemaTiraAnnotation> newSchemaTiraAnnotations;
-    private List<ApiTiraAnnotations.SchemaTiraAnnotation> missingSchemaTiraAnnotations;
-    private List<ApiTiraAnnotations.SchemaTiraAnnotation> changedSchemaTiraAnnotations;
+    private List<SchemaTiraAnnotation> newSchemaTiraAnnotations;
+    private List<SchemaTiraAnnotation> missingSchemaTiraAnnotations;
+    private List<ChangedSchemaTiraAnnotation> changedSchemaTiraAnnotations;
 }

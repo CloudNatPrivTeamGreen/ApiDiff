@@ -98,3 +98,17 @@ components:
           type: "string"
         user_id:
           type: "integer"
+    SameEvent:
+      type: "object"
+      x-tira:
+        retention-time:
+          volatile: true
+      required:
+        - user_id
+      properties:
+        seconds:
+          type: "integer"
+        datetime:
+          type: "string"
+        user_id:
+          type: "integer"
