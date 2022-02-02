@@ -4,6 +4,8 @@ x-tira:
     - name: "AWS"
       non_eu_country: true
       country: "UK"
+  profiling:
+    reason: "Health profile based on series of health related behaviour."
 servers:
   - url: 'http://petstore.swagger.io/v2'
 info:

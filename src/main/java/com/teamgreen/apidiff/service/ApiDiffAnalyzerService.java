@@ -59,23 +59,53 @@ public class ApiDiffAnalyzerService {
     }
 
     private void analyzeGlobalTiraAnnotations(ApiDiffTira apiDiffTira, ApiTiraAnnotations oldTiraAnnotations, ApiTiraAnnotations newTiraAnnotations) {
+        JsonNode oldAnnotations = oldTiraAnnotations.getGlobalTiraAnnotations();
+        JsonNode newAnnotations = newTiraAnnotations.getGlobalTiraAnnotations();
 
-        if (oldTiraAnnotations.getGlobalTiraAnnotations() != null && newTiraAnnotations.getGlobalTiraAnnotations() == null) { //Missing Global Annotations
-            apiDiffTira.setMissingGlobalTiraAnnotation(oldTiraAnnotations.getGlobalTiraAnnotations());
-        } else if (oldTiraAnnotations.getGlobalTiraAnnotations() == null && newTiraAnnotations.getGlobalTiraAnnotations() != null) { //New Global Annotations
-            apiDiffTira.setNewGlobalTiraAnnotation(newTiraAnnotations.getGlobalTiraAnnotations());
-        } else if (oldTiraAnnotations.getGlobalTiraAnnotations() == null && newTiraAnnotations.getGlobalTiraAnnotations() == null) { //Already present or changed Global Annotations
-//            //TODO: Add more logic to determine tira change and represenations
-//            apiDiffTira.setChangedGlobalTiraAnnotation(null);
+        if (oldAnnotations == null) {
+            apiDiffTira.setNewGlobalTiraAnnotation(newAnnotations);
+            return;
+        } else if (newAnnotations == null) {
+            apiDiffTira.setMissingGlobalTiraAnnotation(oldAnnotations);
+            return;
         }
+
+        //New global annotations
+        newAnnotations.fields().forEachRemaining(entry -> {
+                    if (!oldAnnotations.has(entry.getKey()))
+                        apiDiffTira.setNewGlobalTiraAnnotation(mapper.valueToTree(entry));
+                }
+        );
+
+        //Missing global annotations
+        oldAnnotations.fields().forEachRemaining(entry -> {
+                    if (!newAnnotations.has(entry.getKey())) {
+                        apiDiffTira.setMissingGlobalTiraAnnotation(mapper.valueToTree(entry));
+                    } else {
+                        //Check for changes in global annotations which were present in both specifications
+                        if (!entry.getValue().equals(newAnnotations.get(entry.getKey()))) {
+                            apiDiffTira.setChangedGlobalTiraAnnotation(
+                                    new ChangedGlobalTiraAnnotation(
+                                            mapper.valueToTree(entry),
+                                            newAnnotations.get(entry.getKey())
+                                    )
+                            );
+                        }
+                    }
+                }
+        );
     }
 
     private void analyzeSchemaTiraAnnotations(ApiDiffTira apiDiffTira, ApiTiraAnnotations oldTiraAnnotations, ApiTiraAnnotations newTiraAnnotations) {
+
+        List<SchemaTiraAnnotation> oldAnnotations = oldTiraAnnotations.getSchemaTiraAnnotations();
+        List<SchemaTiraAnnotation> newAnnotations = newTiraAnnotations.getSchemaTiraAnnotations();
+
         //New Schema annotations
         apiDiffTira.setNewSchemaTiraAnnotations(
-                newTiraAnnotations.getSchemaTiraAnnotations().stream()
+                newAnnotations.stream()
                         .filter(newSchemaTiraAnnotation ->
-                                oldTiraAnnotations.getSchemaTiraAnnotations().stream()
+                                oldAnnotations.stream()
                                         .noneMatch(oldSchemaTiraAnnotation ->
                                                 oldSchemaTiraAnnotation.getSchemaName().equals(newSchemaTiraAnnotation.getSchemaName()))
                         )
@@ -84,27 +114,28 @@ public class ApiDiffAnalyzerService {
 
         //Missing Schema annotations
         apiDiffTira.setMissingSchemaTiraAnnotations(
-                oldTiraAnnotations.getSchemaTiraAnnotations().stream()
+                oldAnnotations.stream()
                         .filter(oldSchemaTiraAnnotation ->
-                                newTiraAnnotations.getSchemaTiraAnnotations().stream()
+                                newAnnotations.stream()
                                         .noneMatch(newSchemaTiraAnnotation ->
                                                 newSchemaTiraAnnotation.getSchemaName().equals(oldSchemaTiraAnnotation.getSchemaName()))
                         )
                         .collect(Collectors.toList())
         );
 
+        //Check for changes in schema annotations which were present in both specifications
         apiDiffTira.setChangedSchemaTiraAnnotations(
-                oldTiraAnnotations.getSchemaTiraAnnotations().stream()
+                oldAnnotations.stream()
                         .filter(oldSchemaTiraAnnotation ->
-                                newTiraAnnotations.getSchemaTiraAnnotations().stream()
+                                newAnnotations.stream()
                                         .anyMatch(newSchemaTiraAnnotation ->
                                                 newSchemaTiraAnnotation.getSchemaName().equals(oldSchemaTiraAnnotation.getSchemaName())
-                                        && !newSchemaTiraAnnotation.getSchemaTiraAnnotation().equals(oldSchemaTiraAnnotation.getSchemaTiraAnnotation()))
+                                                        && !newSchemaTiraAnnotation.getSchemaTiraAnnotation().equals(oldSchemaTiraAnnotation.getSchemaTiraAnnotation()))
                         )
                         .map(oldSchemaTiraAnnotation -> new ChangedSchemaTiraAnnotation(
                                 oldSchemaTiraAnnotation.getSchemaName(),
                                 oldSchemaTiraAnnotation.getSchemaTiraAnnotation(),
-                                newTiraAnnotations.getSchemaTiraAnnotations().stream()
+                                newAnnotations.stream()
                                         .filter(newSchemaTiraAnnotation -> newSchemaTiraAnnotation.getSchemaName().equals(oldSchemaTiraAnnotation.getSchemaName()))
                                         .map(SchemaTiraAnnotation::getSchemaTiraAnnotation)
                                         .findFirst().orElse(null)))
