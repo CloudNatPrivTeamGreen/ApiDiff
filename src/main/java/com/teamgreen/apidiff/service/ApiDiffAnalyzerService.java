@@ -1,5 +1,7 @@
 package com.teamgreen.apidiff.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teamgreen.apidiff.model.*;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.openapitools.openapidiff.core.model.ChangedOpenApi;
@@ -12,6 +14,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ApiDiffAnalyzerService {
+
+    private static ObjectMapper mapper = new ObjectMapper();
 
     public ApiDiff getRelevantDiffs(ChangedOpenApi completeDiff) {
         if (completeDiff.isUnchanged()) {
@@ -43,12 +47,13 @@ public class ApiDiffAnalyzerService {
 
     private ApiTiraAnnotations getTiraAnnotations(OpenAPI openAPI) {
         List<ApiTiraAnnotations.SchemaTiraAnnotation> schemaTiraAnnotations = new ArrayList<>();
+
         openAPI.getComponents().getSchemas().forEach((s, schema) -> {
             if (schema.getExtensions() != null)
-                schemaTiraAnnotations.add(new ApiTiraAnnotations.SchemaTiraAnnotation(s, schema.getExtensions().get("x-tira")));
+                schemaTiraAnnotations.add(new ApiTiraAnnotations.SchemaTiraAnnotation(s, mapper.convertValue(schema.getExtensions().get("x-tira"), JsonNode.class)));
         });
 
-        Object globalTiraAnnotations = (openAPI.getExtensions() != null) ? openAPI.getExtensions().get("x-tira") : null;
+        JsonNode globalTiraAnnotations = (openAPI.getExtensions() != null) ? mapper.convertValue(openAPI.getExtensions().get("x-tira"), JsonNode.class) : null;
         return new ApiTiraAnnotations(globalTiraAnnotations, schemaTiraAnnotations);
 
     }
