@@ -3,10 +3,6 @@ This application is able to determine differences in API specifications with foc
 ApiDiff uses the [openapi-diff](https://github.com/OpenAPITools/openapi-diff) java library to compare OpenAPI specifications and implements further logic to filter potentially privacy related changes.
 It is written in Java and uses the Spring Boot framework.
 
-# Maven
-Build the java project using [maven](https://maven.apache.org/).
-
-`` mvn clean package ``
 # Build
 `` docker build . -t apidiff ``
 
