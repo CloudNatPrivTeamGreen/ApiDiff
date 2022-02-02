@@ -54,36 +54,53 @@ public class ApiDiffAnalyzerService {
     }
 
     private void analyzeGlobalTiraAnnotations(ApiDiffTira apiDiffTira, ApiTiraAnnotations oldTiraAnnotations, ApiTiraAnnotations newTiraAnnotations) {
-        //Missing Global Annotations
-        if (oldTiraAnnotations.getGlobalTiraAnnotations() != null && newTiraAnnotations.getGlobalTiraAnnotations() == null) {
+
+        if (oldTiraAnnotations.getGlobalTiraAnnotations() != null && newTiraAnnotations.getGlobalTiraAnnotations() == null) { //Missing Global Annotations
             apiDiffTira.setMissingGlobalTiraAnnotation(oldTiraAnnotations.getGlobalTiraAnnotations());
-        } //New Global Annotations
-        else if (oldTiraAnnotations.getGlobalTiraAnnotations() == null && newTiraAnnotations.getGlobalTiraAnnotations() != null) {
+        }
+        else if (oldTiraAnnotations.getGlobalTiraAnnotations() == null && newTiraAnnotations.getGlobalTiraAnnotations() != null) { //New Global Annotations
             apiDiffTira.setNewGlobalTiraAnnotation(newTiraAnnotations.getGlobalTiraAnnotations());
-        }//Already present or changed Global Annotations
-        else if (oldTiraAnnotations.getGlobalTiraAnnotations() == null && newTiraAnnotations.getGlobalTiraAnnotations() == null) {
-//            TODO: Add changed global Tira Annotation
+        }
+        else if (oldTiraAnnotations.getGlobalTiraAnnotations() == null && newTiraAnnotations.getGlobalTiraAnnotations() == null) { //Already present or changed Global Annotations
+//            //TODO: Add more logic to determine tira change and represenations
 //            apiDiffTira.setChangedGlobalTiraAnnotation(null);
         }
     }
 
     private void analyzeSchemaTiraAnnotations(ApiDiffTira apiDiffTira, ApiTiraAnnotations oldTiraAnnotations, ApiTiraAnnotations newTiraAnnotations) {
-
-        //Already present or changed schema Annotations
-        apiDiffTira.setChangedComponentTiraAnnotations(
-                oldTiraAnnotations.getSchemaTiraAnnotations().stream()
-                        .flatMap(oldSchemaTiraAnnotation ->
-                                newTiraAnnotations.getSchemaTiraAnnotations().stream()
-                                .filter(newSchemaTiraAnnotation ->
-                                        newSchemaTiraAnnotation.getSchemaName().equals(oldSchemaTiraAnnotation.getSchemaName()))
+        //New Schema annotations
+        apiDiffTira.setNewComponentTiraAnnotations(
+                newTiraAnnotations.getSchemaTiraAnnotations().stream()
+                        .filter(newSchemaTiraAnnotation ->
+                                oldTiraAnnotations.getSchemaTiraAnnotations().stream()
+                                        .noneMatch(oldSchemaTiraAnnotation ->
+                                                oldSchemaTiraAnnotation.getSchemaName().equals(newSchemaTiraAnnotation.getSchemaName()))
                         )
                         .collect(Collectors.toList())
         );
-    }
 
-    private boolean isTiraAnnotationPresentInComponent() {
-        return true;
-    }
+        //Missing Schema annotations
+        apiDiffTira.setMissingComponentTiraAnnotations(
+                oldTiraAnnotations.getSchemaTiraAnnotations().stream()
+                        .filter(oldSchemaTiraAnnotation ->
+                                newTiraAnnotations.getSchemaTiraAnnotations().stream()
+                                        .noneMatch(newSchemaTiraAnnotation ->
+                                                newSchemaTiraAnnotation.getSchemaName().equals(oldSchemaTiraAnnotation.getSchemaName()))
+                        )
+                        .collect(Collectors.toList())
+        );
 
+//        //TODO: Add more logic to determine tira change and represenations
+//        //Already Present or changes schema Annotations
+//        apiDiffTira.setChangedComponentTiraAnnotations(
+//                oldTiraAnnotations.getSchemaTiraAnnotations().stream()
+//                        .filter(oldSchemaTiraAnnotation ->
+//                                newTiraAnnotations.getSchemaTiraAnnotations().stream()
+//                                        .anyMatch(newSchemaTiraAnnotation ->
+//                                                newSchemaTiraAnnotation.getSchemaName().equals(oldSchemaTiraAnnotation.getSchemaName()))
+//                        )
+//                        .collect(Collectors.toList())
+//        );
+    }
 
 }
