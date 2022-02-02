@@ -1,6 +1,9 @@
 package com.teamgreen.apidiff.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.teamgreen.apidiff.model.ApiDiff;
 import com.teamgreen.apidiff.model.ApiDiffTira;
 import com.teamgreen.apidiff.service.ApiDiffService;
@@ -22,8 +25,15 @@ public class ApiDiffController {
     }
 
     @GetMapping("/relevantChanges")
-    public ApiDiff getPotentiallyPrivacyRelatedChanges(@RequestBody ApiSpecPair apiSpecPair){
+    public ApiDiff getPotentiallyPrivacyRelatedChangesJson(@RequestBody ApiSpecPair apiSpecPair){
         return apiDiffService.getPotentiallyPrivacyRelatedChanges(apiSpecPair);
+    }
+
+    @GetMapping(value = "/relevantChanges", consumes = "application/x-yaml")
+    public ApiDiff getPotentiallyPrivacyRelatedChangesYaml(@RequestBody String apiSpecPair) throws JsonProcessingException {
+        ObjectMapper yamlReader = new ObjectMapper(new YAMLFactory());
+
+        return apiDiffService.getPotentiallyPrivacyRelatedChanges(yamlReader.readValue(apiSpecPair, ApiSpecPair.class));
     }
 
     @GetMapping("/relevantChangesFromSamples")
@@ -32,8 +42,15 @@ public class ApiDiffController {
     }
 
     @GetMapping("/tira")
-    public ApiDiffTira getTiraChanges(@RequestBody ApiSpecPair apiSpecPair){
+    public ApiDiffTira getTiraChangesJson(@RequestBody ApiSpecPair apiSpecPair){
         return apiDiffService.getTiraChanges(apiSpecPair);
+    }
+
+    @GetMapping(value = "/tira", consumes = "application/x-yaml")
+    public ApiDiffTira getTiraChangesYaml(@RequestBody String apiSpecPair) throws JsonProcessingException {
+        ObjectMapper yamlReader = new ObjectMapper(new YAMLFactory());
+
+        return apiDiffService.getTiraChanges(yamlReader.readValue(apiSpecPair, ApiSpecPair.class));
     }
 
     @GetMapping("/tiraFromSamples")
