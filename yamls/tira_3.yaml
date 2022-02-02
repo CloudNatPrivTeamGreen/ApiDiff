@@ -1,4 +1,11 @@
 openapi: 3.0.0
+x-tira:
+  utilizer:
+    - name: "AWS2"
+      non_eu_country: true
+      country: "UK"
+  utilizer_category:
+    - name: "Health Insurance Company"
 servers:
   - url: 'http://petstore.swagger.io/v2'
 info:

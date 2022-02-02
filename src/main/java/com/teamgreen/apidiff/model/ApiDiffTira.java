@@ -9,7 +9,7 @@ import java.util.List;
 public class ApiDiffTira {
     private JsonNode newGlobalTiraAnnotation;
     private JsonNode missingGlobalTiraAnnotation;
-    private JsonNode changedGlobalTiraAnnotation;
+    private ChangedGlobalTiraAnnotation changedGlobalTiraAnnotation;
 
     private List<SchemaTiraAnnotation> newSchemaTiraAnnotations;
     private List<SchemaTiraAnnotation> missingSchemaTiraAnnotations;
