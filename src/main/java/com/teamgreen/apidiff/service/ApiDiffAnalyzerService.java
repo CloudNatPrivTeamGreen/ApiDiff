@@ -98,7 +98,8 @@ public class ApiDiffAnalyzerService {
                         .filter(oldSchemaTiraAnnotation ->
                                 newTiraAnnotations.getSchemaTiraAnnotations().stream()
                                         .anyMatch(newSchemaTiraAnnotation ->
-                                                newSchemaTiraAnnotation.getSchemaName().equals(oldSchemaTiraAnnotation.getSchemaName()))
+                                                newSchemaTiraAnnotation.getSchemaName().equals(oldSchemaTiraAnnotation.getSchemaName())
+                                        && !newSchemaTiraAnnotation.getSchemaTiraAnnotation().equals(oldSchemaTiraAnnotation.getSchemaTiraAnnotation()))
                         )
                         .map(oldSchemaTiraAnnotation -> new ChangedSchemaTiraAnnotation(
                                 oldSchemaTiraAnnotation.getSchemaName(),
