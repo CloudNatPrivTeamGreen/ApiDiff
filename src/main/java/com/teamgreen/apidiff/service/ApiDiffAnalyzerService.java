@@ -69,7 +69,7 @@ public class ApiDiffAnalyzerService {
 
     private void analyzeSchemaTiraAnnotations(ApiDiffTira apiDiffTira, ApiTiraAnnotations oldTiraAnnotations, ApiTiraAnnotations newTiraAnnotations) {
         //New Schema annotations
-        apiDiffTira.setNewComponentTiraAnnotations(
+        apiDiffTira.setNewSchemaTiraAnnotations(
                 newTiraAnnotations.getSchemaTiraAnnotations().stream()
                         .filter(newSchemaTiraAnnotation ->
                                 oldTiraAnnotations.getSchemaTiraAnnotations().stream()
@@ -80,7 +80,7 @@ public class ApiDiffAnalyzerService {
         );
 
         //Missing Schema annotations
-        apiDiffTira.setMissingComponentTiraAnnotations(
+        apiDiffTira.setMissingSchemaTiraAnnotations(
                 oldTiraAnnotations.getSchemaTiraAnnotations().stream()
                         .filter(oldSchemaTiraAnnotation ->
                                 newTiraAnnotations.getSchemaTiraAnnotations().stream()
