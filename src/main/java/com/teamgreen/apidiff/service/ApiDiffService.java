@@ -11,19 +11,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ApiDiffService {
-
-    private ApiDiffResponseService apiDiffResponseService;
-    private ApiDiffAnalyzerService apiDiffAnalyzerService;
+    private final ApiDiffAnalyzerService apiDiffAnalyzerService;
 
     @Autowired
-    public ApiDiffService(ApiDiffResponseService apiDiffResponseService, ApiDiffAnalyzerService apiDiffAnalyzerService) {
-        this.apiDiffResponseService = apiDiffResponseService;
+    public ApiDiffService(ApiDiffAnalyzerService apiDiffAnalyzerService) {
         this.apiDiffAnalyzerService = apiDiffAnalyzerService;
-    }
-
-    public String getAllApiChangesWithBasicRender(String renderType, ApiSpecPair apiSpecPair) {
-        ChangedOpenApi completeDiff = OpenApiCompare.fromContents(apiSpecPair.getOldApiSpec().toString(), apiSpecPair.getNewApiSpec().toString());
-        return apiDiffResponseService.getRenderedApiDiffResponse(completeDiff,renderType);
     }
 
 

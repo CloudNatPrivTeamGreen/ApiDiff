@@ -21,11 +21,6 @@ public class ApiDiffController {
         this.apiDiffService = apiDiffService;
     }
 
-    @GetMapping("/render")
-    public String getAllApiChangesWithBasicRender(@RequestParam String type, @RequestBody ApiSpecPair apiSpecPair){
-        return apiDiffService.getAllApiChangesWithBasicRender(type, apiSpecPair);
-    }
-
     @GetMapping("/relevantChanges")
     public ApiDiff getPotentiallyPrivacyRelatedChanges(@RequestBody ApiSpecPair apiSpecPair){
         return apiDiffService.getPotentiallyPrivacyRelatedChanges(apiSpecPair);
