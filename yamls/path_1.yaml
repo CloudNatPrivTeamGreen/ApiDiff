@@ -33,3 +33,36 @@ paths:
       responses:
         '405':
           description: Invalid input
+    delete:
+      tags:
+        - pet
+      summary: gets a pet by id
+      description: ''
+      operationId: updatePetWithForm
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet that needs to be updated
+          required: true
+          schema:
+            type: integer
+      responses:
+        '405':
+          description: Invalid input
+  /calc/{petId}:
+    get:
+      tags:
+        - pet
+      summary: gets a pet by id
+      description: ''
+      operationId: updatePetWithForm
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet that needs to be updated
+          required: true
+          schema:
+            type: integer
+      responses:
+        '405':
+          description: Invalid input
