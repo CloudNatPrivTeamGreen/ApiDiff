@@ -34,8 +34,7 @@ public class ApiDiffAnalyzerService {
                 .map(ChangedOperation::new)
                 .collect(Collectors.toList());
 
-
-        return new ApiDiff(newEndpoints, missingEndpoints, changedOperations, completeDiff.getChangedSchemas());
+        return new ApiDiff(newEndpoints, missingEndpoints, changedOperations);
 
     }
 

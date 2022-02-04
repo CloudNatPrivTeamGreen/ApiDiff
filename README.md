@@ -49,8 +49,7 @@ A response will have this format:
     "potentiallyPrivacyRelatedDifferencesGiven": false,
     "newEndpoints": [ ... ],
     "missingEndpoints": [ ... ],
-    "changedOperations": [ ... ],
-    "changedSchemas": [ ... ]
+    "changedOperations": [ ... ]
 }
 ```
 
