@@ -30,7 +30,12 @@ public class ApiDiffAnalyzerService {
                 .map(MissingEndpoint::new)
                 .collect(Collectors.toList());
 
-        return new ApiDiff(newEndpoints, missingEndpoints, completeDiff.getChangedOperations(), completeDiff.getChangedSchemas());
+        List<ChangedOperation> changedOperations = completeDiff.getChangedOperations().stream()
+                .map(ChangedOperation::new)
+                .collect(Collectors.toList());
+
+
+        return new ApiDiff(newEndpoints, missingEndpoints, changedOperations, completeDiff.getChangedSchemas());
 
     }
 

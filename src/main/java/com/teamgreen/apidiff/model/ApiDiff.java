@@ -1,8 +1,6 @@
 package com.teamgreen.apidiff.model;
 
 import lombok.Data;
-import org.openapitools.openapidiff.core.model.ChangedExtensions;
-import org.openapitools.openapidiff.core.model.ChangedOperation;
 import org.openapitools.openapidiff.core.model.ChangedSchema;
 
 

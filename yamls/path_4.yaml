@@ -20,13 +20,13 @@ paths:
     get:
       tags:
         - pet
-      summary: gets a pet by id
+      summary: get one pet by id
       description: ''
       operationId: updatePetWithForm
       parameters:
         - name: petId
           in: path
-          description: ID of pet that needs to be updated
+          description: ID of one pet that needs to be updated
           required: true
           schema:
             type: integer
