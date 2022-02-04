@@ -123,3 +123,171 @@ To choose the render type you have to set the `type` request parameter to your d
   newApiSpec:
     ...
   ```
+
+## Responses
+Some example responses from calls to the ApiDiff service with specifications from the samples in the `yamls` folder.
+
+- ### `/relevantChanges`
+
+  **Request**:
+  http://localhost:8080/apidiff/relevantChangesFromSamples?oldApi=path_1.yaml&newApi=path_4.yaml
+  
+  **Response**:
+  
+  ```
+  {
+      "generalDifferenceGiven": true,
+      "potentiallyPrivacyRelatedDifferencesGiven": true,
+      "newEndpoints": [
+          {
+              "pathUrl": "/pet/{petId2}",
+              "method": "POST",
+              "summary": "deletes a pet",
+              "pathIsNew": true
+          }
+      ],
+      "missingEndpoints": [
+          {
+              "pathUrl": "/calc/{petId}",
+              "method": "GET",
+              "summary": "gets a pet by id",
+              "pathIsStillPresent": false
+          },
+          {
+              "pathUrl": "/pet/{petId}",
+              "method": "DELETE",
+              "summary": "gets a pet by id",
+              "pathIsStillPresent": true
+          }
+      ],
+      "changedOperations": [
+          {
+              "pathUrl": "/pet/{petId}",
+              "method": "GET",
+              "changedFields": [
+                  "summary",
+                  "parameters"
+              ]
+          }
+      ]
+  }
+  ```
+
+- ### `/tira`
+
+  **Request**:
+  http://localhost:8080/apidiff/tiraFromSamples?oldApi=tira_1.yaml&newApi=tira_3.yaml
+  
+  **Response**:
+  
+  ```
+  {
+      "newGlobalTiraAnnotation": {
+          "utilizer_category": [
+              {
+                  "name": "Health Insurance Company"
+              }
+          ]
+      },
+      "missingGlobalTiraAnnotation": {
+          "profiling": {
+              "reason": "Health profile based on series of health related behaviour."
+          }
+      },
+      "changedGlobalTiraAnnotation": {
+          "oldGlobalTiraAnnotation": {
+              "utilizer": [
+                  {
+                      "name": "AWS",
+                      "non_eu_country": true,
+                      "country": "UK"
+                  }
+              ]
+          },
+          "newGlobalTiraAnnotation": [
+              {
+                  "name": "AWS2",
+                  "non_eu_country": true,
+                  "country": "UK"
+              }
+          ]
+      },
+      "newSchemaTiraAnnotations": [
+          {
+              "schemaName": "JumpEvent",
+              "schemaTiraAnnotation": {
+                  "retention-time": {
+                      "volatile": true
+                  },
+                  "special_category": {
+                      "category": "Health Data"
+                  },
+                  "profiling": {
+                      "reason": "Health profile based on series of health related behaviour."
+                  }
+              }
+          }
+      ],
+      "missingSchemaTiraAnnotations": [
+          {
+              "schemaName": "DanceEvent",
+              "schemaTiraAnnotation": {
+                  "retention-time": {
+                      "volatile": true
+                  },
+                  "special_category": {
+                      "category": "Health Data"
+                  },
+                  "purposes": {
+                      "yappl": "{ \"id\":123, \"preference\":[ { \"rule\":{ \"purpose\":{ \"permitted\": [ \"FitnessData Sharing\", \"Health Insurance Bonus Program\" ], \"excluded\": [ ... ] }, \"utilizer\":{ \"permitted\": [ ... ], \"excluded\": [ ... ] }, \"transformation\": [ ... ], \"valid_from\":\"2021-06-09T00:00:00.000Z\", \"exp_date\":\"0000-01-01T00:00:00.000Z\" } } ] }"
+                  },
+                  "profiling": {
+                      "reason": "Health profile based on series of health related behaviour."
+                  },
+                  "utilizer": [
+                      {
+                          "name": "MyFitnessPal",
+                          "non_eu_country": false
+                      },
+                      {
+                          "name": "Strava",
+                          "non_eu_country": true,
+                          "country": "USA"
+                      }
+                  ],
+                  "utilizer_category": [
+                      {
+                          "name": "Health Insurance Company",
+                          "country": "Germany",
+                          "non_eu_country": false,
+                          "type": "Insurance Company",
+                          "sector": "Insurance",
+                          "sub_sector": [
+                              "Health Insurance",
+                              "Health Tax"
+                          ]
+                      }
+                  ]
+              }
+          }
+      ],
+      "changedSchemaTiraAnnotations": [
+          {
+              "schemaName": "SameEvent",
+              "oldSchemaTiraAnnotation": {
+                  "retention-time": {
+                      "volatile": true
+                  },
+                  "special_category": {
+                      "category": "Health Data"
+                  }
+              },
+              "newSchemaTiraAnnotation": {
+                  "retention-time": {
+                      "volatile": true
+                  }
+              }
+          }
+      ]
+  }
+  ```
