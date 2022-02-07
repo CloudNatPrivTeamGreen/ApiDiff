@@ -11,7 +11,15 @@ It is written in Java and uses the Spring Boot framework.
 
 The application will run under http://localhost:8080/ .
 
+#OpenAPI Spec
+The application generates a Swagger-UI page on startup exposed at:
+`` /swagger-ui.html ``
+
+The OpenAPI spec can be found on 
+``/v3/api-docs`` as well as in the ``resources`` folder
+
 # Endpoints
+
 
 ## ApiDiff Endpoints
 
