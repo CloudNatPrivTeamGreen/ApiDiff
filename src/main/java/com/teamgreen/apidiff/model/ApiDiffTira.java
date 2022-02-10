@@ -12,9 +12,9 @@ public class ApiDiffTira {
     private List<JsonNode> missingGlobalTiraAnnotation = new ArrayList<>();
     private List<ChangedGlobalTiraAnnotation> changedGlobalTiraAnnotation = new ArrayList<>();
 
-    private List<SchemaTiraAnnotation> newSchemaTiraAnnotations;
-    private List<SchemaTiraAnnotation> missingSchemaTiraAnnotations;
-    private List<ChangedSchemaTiraAnnotation> changedSchemaTiraAnnotations;
+    private List<SchemaTiraAnnotation> newSchemaTiraAnnotations = new ArrayList<>();
+    private List<SchemaTiraAnnotation> missingSchemaTiraAnnotations = new ArrayList<>();
+    private List<ChangedSchemaTiraAnnotation> changedSchemaTiraAnnotations = new ArrayList<>();
 
 
 }
