@@ -3,15 +3,16 @@ package com.teamgreen.apidiff.model;
 import lombok.Data;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class ApiDiff {
     private boolean generalDifferenceGiven;
     private boolean potentiallyPrivacyRelatedDifferencesGiven;
-    private List<NewEndpoint> newEndpoints;
-    private List<MissingEndpoint> missingEndpoints;
-    private List<ChangedOperation> changedOperations;
+    private List<NewEndpoint> newEndpoints = new ArrayList<>();
+    private List<MissingEndpoint> missingEndpoints = new ArrayList<>();
+    private List<ChangedOperation> changedOperations = new ArrayList<>();
 
     public ApiDiff() {
         this.generalDifferenceGiven = false;
