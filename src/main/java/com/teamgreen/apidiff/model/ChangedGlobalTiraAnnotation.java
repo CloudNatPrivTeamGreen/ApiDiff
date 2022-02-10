@@ -5,10 +5,12 @@ import lombok.Data;
 
 @Data
 public class ChangedGlobalTiraAnnotation {
+    private String key;
     private JsonNode oldGlobalTiraAnnotation;
     private JsonNode newGlobalTiraAnnotation;
 
-    public ChangedGlobalTiraAnnotation(JsonNode oldGlobalTiraAnnotation, JsonNode newGlobalTiraAnnotation) {
+    public ChangedGlobalTiraAnnotation(String key, JsonNode oldGlobalTiraAnnotation, JsonNode newGlobalTiraAnnotation) {
+        this.key = key;
         this.oldGlobalTiraAnnotation = oldGlobalTiraAnnotation;
         this.newGlobalTiraAnnotation = newGlobalTiraAnnotation;
     }
