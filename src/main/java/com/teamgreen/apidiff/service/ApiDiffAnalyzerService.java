@@ -67,31 +67,32 @@ public class ApiDiffAnalyzerService {
         JsonNode newAnnotations = newTiraAnnotations.getGlobalTiraAnnotations();
 
         if (oldAnnotations == null) {
-            apiDiffTira.setNewGlobalTiraAnnotation(newAnnotations);
+            newAnnotations.fields().forEachRemaining(entry -> apiDiffTira.getNewGlobalTiraAnnotation().add(mapper.valueToTree(entry)));
             return;
         } else if (newAnnotations == null) {
-            apiDiffTira.setMissingGlobalTiraAnnotation(oldAnnotations);
+            oldAnnotations.fields().forEachRemaining(entry -> apiDiffTira.getMissingGlobalTiraAnnotation().add(mapper.valueToTree(entry)));
             return;
         }
 
         //New global annotations
         newAnnotations.fields().forEachRemaining(entry -> {
                     if (!oldAnnotations.has(entry.getKey()))
-                        apiDiffTira.setNewGlobalTiraAnnotation(mapper.valueToTree(entry));
+                        apiDiffTira.getNewGlobalTiraAnnotation().add(mapper.valueToTree(entry));
                 }
         );
 
         //Missing global annotations
         oldAnnotations.fields().forEachRemaining(entry -> {
                     if (!newAnnotations.has(entry.getKey())) {
-                        apiDiffTira.setMissingGlobalTiraAnnotation(mapper.valueToTree(entry));
+                        apiDiffTira.getMissingGlobalTiraAnnotation().add(mapper.valueToTree(entry));
                     } else {
                         //Check for changes in global annotations which were present in both specifications
                         if (!entry.getValue().equals(newAnnotations.get(entry.getKey()))) {
-                            apiDiffTira.setChangedGlobalTiraAnnotation(
+                            apiDiffTira.getChangedGlobalTiraAnnotation().add(
                                     new ChangedGlobalTiraAnnotation(
-                                            mapper.valueToTree(entry),
-                                            newAnnotations.get(entry.getKey())
+                                            entry.getKey(),
+                                            entry.getValue().get(0),
+                                            newAnnotations.get(entry.getKey()).get(0)
                                     )
                             );
                         }
