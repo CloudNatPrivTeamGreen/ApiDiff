@@ -189,37 +189,38 @@ Some example responses from calls to the ApiDiff service with specifications fro
   **Response**:
   
   ```
-  {
-      "newGlobalTiraAnnotation": {
-          "utilizer_category": [
-              {
-                  "name": "Health Insurance Company"
-              }
-          ]
-      },
-      "missingGlobalTiraAnnotation": {
-          "profiling": {
-              "reason": "Health profile based on series of health related behaviour."
-          }
-      },
-      "changedGlobalTiraAnnotation": {
-          "oldGlobalTiraAnnotation": {
-              "utilizer": [
+    {
+      "newGlobalTiraAnnotation": [
+          {
+              "utilizer_category": [
                   {
-                      "name": "AWS",
-                      "non_eu_country": true,
-                      "country": "UK"
+                      "name": "Health Insurance Company"
                   }
               ]
-          },
-          "newGlobalTiraAnnotation": [
-              {
+          }
+      ],
+      "missingGlobalTiraAnnotation": [
+          {
+              "profiling": {
+                  "reason": "Health profile based on series of health related behaviour."
+              }
+          }
+      ],
+      "changedGlobalTiraAnnotation": [
+          {
+              "key": "utilizer",
+              "oldGlobalTiraAnnotation": {
+                  "name": "AWS",
+                  "non_eu_country": true,
+                  "country": "UK"
+              },
+              "newGlobalTiraAnnotation": {
                   "name": "AWS2",
                   "non_eu_country": true,
                   "country": "UK"
               }
-          ]
-      },
+          }
+      ],
       "newSchemaTiraAnnotations": [
           {
               "schemaName": "JumpEvent",
@@ -281,21 +282,21 @@ Some example responses from calls to the ApiDiff service with specifications fro
       ],
       "changedSchemaTiraAnnotations": [
           {
-              "schemaName": "SameEvent",
-              "oldSchemaTiraAnnotation": {
-                  "retention-time": {
-                      "volatile": true
-                  },
-                  "special_category": {
-                      "category": "Health Data"
-                  }
-              },
-              "newSchemaTiraAnnotation": {
-                  "retention-time": {
-                      "volatile": true
-                  }
-              }
-          }
-      ]
+            "schemaName": "SameEvent",
+            "oldSchemaTiraAnnotation": {
+                "retention-time": {
+                    "volatile": true
+                },
+                "special_category": {
+                    "category": "Health Data"
+                }
+            },
+            "newSchemaTiraAnnotation": {
+                "retention-time": {
+                    "volatile": true
+                }
+            }
+        }
+    ]
   }
   ```
