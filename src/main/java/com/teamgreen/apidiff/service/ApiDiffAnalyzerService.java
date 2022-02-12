@@ -52,10 +52,13 @@ public class ApiDiffAnalyzerService {
     private ApiTiraAnnotations getTiraAnnotations(OpenAPI openAPI) {
         List<SchemaTiraAnnotation> schemaTiraAnnotations = new ArrayList<>();
 
-        openAPI.getComponents().getSchemas().forEach((s, schema) -> {
-            if (schema.getExtensions() != null)
-                schemaTiraAnnotations.add(new SchemaTiraAnnotation(s, mapper.convertValue(schema.getExtensions().get("x-tira"), JsonNode.class)));
-        });
+        if(openAPI.getComponents() != null && openAPI.getComponents().getSchemas() != null){
+            openAPI.getComponents().getSchemas().forEach((s, schema) -> {
+                if (schema.getExtensions() != null)
+                    schemaTiraAnnotations.add(new SchemaTiraAnnotation(s, mapper.convertValue(schema.getExtensions().get("x-tira"), JsonNode.class)));
+            });
+        }
+
 
         JsonNode globalTiraAnnotations = (openAPI.getExtensions() != null) ? mapper.convertValue(openAPI.getExtensions().get("x-tira"), JsonNode.class) : null;
         return new ApiTiraAnnotations(globalTiraAnnotations, schemaTiraAnnotations);
@@ -66,39 +69,39 @@ public class ApiDiffAnalyzerService {
         JsonNode oldAnnotations = oldTiraAnnotations.getGlobalTiraAnnotations();
         JsonNode newAnnotations = newTiraAnnotations.getGlobalTiraAnnotations();
 
-        if (oldAnnotations == null) {
+        if (oldAnnotations == null && newAnnotations != null) {
             newAnnotations.fields().forEachRemaining(entry -> apiDiffTira.getNewGlobalTiraAnnotation().add(mapper.valueToTree(entry)));
             return;
-        } else if (newAnnotations == null) {
+        } else if (oldAnnotations != null && newAnnotations == null) {
             oldAnnotations.fields().forEachRemaining(entry -> apiDiffTira.getMissingGlobalTiraAnnotation().add(mapper.valueToTree(entry)));
             return;
-        }
+        } else if (oldAnnotations != null){
+            //New global annotations
+            newAnnotations.fields().forEachRemaining(entry -> {
+                        if (!oldAnnotations.has(entry.getKey()))
+                            apiDiffTira.getNewGlobalTiraAnnotation().add(mapper.valueToTree(entry));
+                    }
+            );
 
-        //New global annotations
-        newAnnotations.fields().forEachRemaining(entry -> {
-                    if (!oldAnnotations.has(entry.getKey()))
-                        apiDiffTira.getNewGlobalTiraAnnotation().add(mapper.valueToTree(entry));
-                }
-        );
-
-        //Missing global annotations
-        oldAnnotations.fields().forEachRemaining(entry -> {
-                    if (!newAnnotations.has(entry.getKey())) {
-                        apiDiffTira.getMissingGlobalTiraAnnotation().add(mapper.valueToTree(entry));
-                    } else {
-                        //Check for changes in global annotations which were present in both specifications
-                        if (!entry.getValue().equals(newAnnotations.get(entry.getKey()))) {
-                            apiDiffTira.getChangedGlobalTiraAnnotation().add(
-                                    new ChangedGlobalTiraAnnotation(
-                                            entry.getKey(),
-                                            entry.getValue().get(0),
-                                            newAnnotations.get(entry.getKey()).get(0)
-                                    )
-                            );
+            //Missing global annotations
+            oldAnnotations.fields().forEachRemaining(entry -> {
+                        if (!newAnnotations.has(entry.getKey())) {
+                            apiDiffTira.getMissingGlobalTiraAnnotation().add(mapper.valueToTree(entry));
+                        } else {
+                            //Check for changes in global annotations which were present in both specifications
+                            if (!entry.getValue().equals(newAnnotations.get(entry.getKey()))) {
+                                apiDiffTira.getChangedGlobalTiraAnnotation().add(
+                                        new ChangedGlobalTiraAnnotation(
+                                                entry.getKey(),
+                                                entry.getValue().get(0),
+                                                newAnnotations.get(entry.getKey()).get(0)
+                                        )
+                                );
+                            }
                         }
                     }
-                }
-        );
+            );
+        }
     }
 
     private void analyzeSchemaTiraAnnotations(ApiDiffTira apiDiffTira, ApiTiraAnnotations oldTiraAnnotations, ApiTiraAnnotations newTiraAnnotations) {
