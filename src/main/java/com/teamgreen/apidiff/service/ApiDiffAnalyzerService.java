@@ -93,8 +93,8 @@ public class ApiDiffAnalyzerService {
                                 apiDiffTira.getChangedGlobalTiraAnnotation().add(
                                         new ChangedGlobalTiraAnnotation(
                                                 entry.getKey(),
-                                                entry.getValue().get(0),
-                                                newAnnotations.get(entry.getKey()).get(0)
+                                                entry.getValue(),
+                                                newAnnotations.get(entry.getKey())
                                         )
                                 );
                             }
